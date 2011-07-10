@@ -1,8 +1,8 @@
-== Blogerl ==
+## Blogerl ##
 
 Blogerl is a minimalist blog engine written in Erlang. It generates only flat HTML files with an RSS entry and an index, nothing more.
 
-=== Building & Compiling ===
+### Building & Compiling ###
 
 You need to have Erlang, agner and agnerized rebar installed (`agner install rebar`):
 
@@ -18,7 +18,7 @@ And the Blogerl release is compiled. Try to compile the blogerl demo blog:
 
 And open the files in demo-blog/compiled/ a browser.
 
-=== Config File ===
+### Config File ###
 
 The configuration file should be named `conf.cfg` and be placed in the base directory of the blog files. It contains instructions on where to find everything else:
 
@@ -50,7 +50,7 @@ The configuration file should be named `conf.cfg` and be placed in the base dire
 			{css, "file:///home/..,/blogerl/demo-blog/compiled/static/css/"}]}]}.
 
 
-=== The Blog Index ===
+### The Blog Index ###
 
 The blog index contains tuples with information relative to the contents of the site. The date format here is the one standard in RSS documents. The entries will be ordered in descending order by date automatically (using the format YYYY-MM-DD).
 
@@ -60,10 +60,10 @@ The blog index contains tuples with information relative to the contents of the 
 
 You can take a look to the matching `*.tpl` files in `demo-blog` to see how they work
 
-=== Markdown ===
+### Markdown ###
 
 Files that are scanned as requiring markdown and have markdown code between `{% markdown %}` and `{% endmarkdown %} tags (they can not be nested) will have all the content in between converted by a markdown library. The rest will be left as is.
 
-=== Authors ===
+### Authors ###
 
 - [Fred Hebert](http://ferd.ca)
