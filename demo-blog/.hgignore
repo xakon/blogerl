@@ -1,0 +1,12 @@
+#use glob syntax.
+syntax: glob
+
+*.swp
+*.beam
+*.dump
+demo-blog/compiled/*
+rel/blogerl/*
+apps/blogerl/deps/*
+apps/markdown
+apps/mochiweb
+apps/erlydtl
