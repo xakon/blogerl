@@ -1,8 +1,5 @@
 {% extends "base.tpl" %}
 
-{% block date %}<span class="date">2010-08-12</span>{% endblock %}
-{% block title %}Second Article{% endblock %}
-
 {% block content %}
 <h2>Second Article</h2>
 

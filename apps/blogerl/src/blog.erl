@@ -88,6 +88,8 @@ get_entries(Conf=#conf{}) ->
 
 compile_files([], _, _) -> [];
 compile_files([A = #article{file=File} | Rest], Vars, Markdown) ->
+    AllVars = [{meta, [{date, format_date(A#article.date)},
+                       {title, A#article.title}]} | Vars],
     MarkdownRequired = fun(Re) ->
         case re:run(File, Re) of
             nomatch -> false;
@@ -99,9 +101,9 @@ compile_files([A = #article{file=File} | Rest], Vars, Markdown) ->
             {ok, Bin} = file:read_file(File),
             MD = markdown(Bin),
             {ok, tpl} = erlydtl:compile(MD, tpl,
-                         [{vars, Vars}, {doc_root, filename:dirname(File)}]);
+                         [{vars, AllVars}, {doc_root, filename:dirname(File)}]);
         false ->
-            ok = erlydtl:compile(File, tpl, [{vars, Vars}])
+            ok = erlydtl:compile(File, tpl, [{vars, AllVars}])
     end,
     {ok, Text} = tpl:render([]),
     [A#article{text=Text} | compile_files(Rest, Vars, Markdown)].

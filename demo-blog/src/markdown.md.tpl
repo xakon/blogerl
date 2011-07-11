@@ -1,8 +1,5 @@
 {% extends "base.tpl" %}
 
-{% block date %}<span class="date">Who cares about dates?</span>{% endblock %}
-{% block title %}Markdown Test{% endblock %}
-
 {% block content %}
 {% markdown %}
 Markdown Test
@@ -92,6 +89,6 @@ In purus elit, tincidunt non tincidunt luctus, bibendum id augue. Donec eget bla
                 
                 value
 
-Nam adipiscing semper erat, quis faucibus tortor consectetur et. Donec sit amet metus dui, eu varius justo. Morbi vel nulla sollicitudin ante ullamcorper mattis. Aenean ut libero diam, tempor condimentum sem. Integer sit amet leo id arcu facilisis sollicitudin. Cras est lorem, feugiat eget sagittis quis, placerat vel massa. Morbi ac elit tellus. In in lectus libero. Duis tincidunt semper mauris nec pretium. Pellentesque sed dui quis lectus faucibus sollicitudin non non est.
+Nam adipiscing semper <em>erat</em>, quis faucibus tortor consectetur et. Donec sit amet metus dui, eu varius justo. Morbi vel nulla sollicitudin ante ullamcorper mattis. Aenean ut libero diam, tempor condimentum sem. Integer sit amet leo id arcu facilisis sollicitudin. Cras est lorem, feugiat eget sagittis quis, placerat vel massa. Morbi ac elit tellus. In in lectus libero. Duis tincidunt semper mauris nec pretium. Pellentesque sed dui quis lectus faucibus sollicitudin non non est.
 {% endmarkdown %}
 {% endblock %}
