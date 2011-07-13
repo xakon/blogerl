@@ -1,5 +1,4 @@
 {% extends "base.tpl" %}
-{# index template. Name 'index.tpl' reserved. #}
 
 {% block title %}home{% endblock %}
 {% block date %}{% endblock %}

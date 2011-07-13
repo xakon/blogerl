@@ -140,17 +140,18 @@ create_index(Src, Out, Pages, Vars) ->
     {ok, Text} = tpl:render([]),
     ok = file:write_file(Out, Text).
 
-rss(Src, Out, Num, Pages, Vars) ->
-    Index = lists:reverse(lists:sort(Pages)),
-    Articles = [[{date, A#article.date},
+rss(Src, Out, Num, Index, Vars) ->
+    Articles = lists:reverse(lists:sort(
+               [[{sort, format_date(A#article.date)},
+                 {date, A#article.date},
                  {title, A#article.title},
                  {slug, A#article.slug},
                  {desc,
                   "<![CDATA["++mochiweb_html:to_html({<<"div">>, 
                                         [],
                                         article(mochiweb_html:parse(T))})++"]]>"}] ||
-                  A=#article{text=T} <- Index],
-    [#article{date=LatestDate}|_] = Index,
+                  A=#article{text=T} <- Index])),
+    [[_,{date, LatestDate}|_]|_] = Articles,
     ok = erlydtl:compile(Src,
                          tpl,
                          [{vars, [{articles, lists:sublist((Articles), Num)},
