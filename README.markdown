@@ -6,10 +6,10 @@ Blogerl is a minimalist blog engine written in Erlang. It generates only flat HT
 
 You need to have Erlang, agner and agnerized rebar installed (`agner install rebar`):
 
-	rebar get-deps
-	rebar compile
+	./rebar get-deps
+	./rebar compile
 	cd rel/
-	./build.sh
+	escript build.sh
 
 And the Blogerl release is compiled. Try to compile the blogerl demo blog:
 

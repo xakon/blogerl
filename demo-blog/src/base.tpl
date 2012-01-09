@@ -5,7 +5,7 @@
     <link rel="shortcut icon" href="{{ url.img }}favicon.ico" type="image/x-icon"/>
     <title>Blogerl Demo -> {% block title %}{{ meta.title }}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url.css }}screen.css" media="screen, projection" />
-    <link href="{{ url.base }}feed.rss" type="application/rss+xml" rel="alternate" title="ferd.ca newsfeed" />
+    <link href="{{ url.base }}feed.rss" type="application/rss+xml" rel="alternate" title="blog newsfeed" />
   </head>
 
   <body>

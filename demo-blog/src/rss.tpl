@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <rss version="2.0">
   <channel>
-    <title>Ferd.ca</title>
+    <title>My Blog</title>
     <link>{{ url.base }}</link>
     <description>My own blog about programming and whatnot.</description>
     <language>en-us</language>
