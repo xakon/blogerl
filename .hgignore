@@ -6,7 +6,4 @@ syntax: glob
 *.dump
 demo-blog/compiled/*
 rel/blogerl/*
-apps/blogerl/deps/*
-apps/markdown
-apps/mochiweb
-apps/erlydtl
+deps/*
