@@ -19,7 +19,7 @@ Aliquam erat erat, semper sit amet vehicula non, fringilla vitae diam. Vivamus i
 
 __Aliquam lorem arcu__, ornare ac porttitor at, blandit sit amet mi. Phasellus cursus facilisis lectus, et consequat neque elementum nec. Suspendisse auctor mollis turpis, nec volutpat augue sagittis at. Vivamus vitae metus non tellus ultricies imperdiet et eu risus. Nunc non augue orci.
 
-Aliquam mi tellus, condimentum id blandit nec, fringilla nec lectus. Nulla facilisi. <a href="">Praesent eget felis dolor</a>. Pellentesque ultricies, [urna sed](http://ferd.ca) tempor dapibus, nulla lorem vestibulum justo, nec tincidunt turpis urna quis eros. Aliquam erat lectus, varius sed mollis quis, pretium sed est. Aliquam erat volutpat. Nulla porta congue neque, nec ornare lectus cursus id. Morbi eros est, fringilla id bibendum et, commodo ac nisl. Cras viverra dapibus molestie.
+Aliquam mi tellus, condimentum id blandit nec, fringilla nec lectus. Nulla facilisi. <a href="http://example.org">Praesent eget felis dolor</a>. Pellentesque ultricies, [urna sed](http://ferd.ca) tempor dapibus, nulla lorem vestibulum justo, nec tincidunt turpis urna quis eros. Aliquam erat lectus, varius sed mollis quis, pretium sed est. Aliquam erat volutpat. Nulla porta congue neque, nec ornare lectus cursus id. Morbi eros est, fringilla id bibendum et, commodo ac nisl. Cras viverra dapibus molestie.
 
 ### Section 2 with rather longer titles to see how they do when compressed.
 

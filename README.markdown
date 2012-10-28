@@ -14,7 +14,7 @@ You need to have Erlang installed:
 And the Blogerl release is compiled. Try to compile the blogerl demo blog:
 
 	cd ../demo-blog
-	./run sh
+	./run.sh
 
 And open the files in demo-blog/compiled/ a browser.
 
