@@ -7,11 +7,11 @@
     <language>en-us</language>
     <pubDate>{{ latest_date }}</pubDate>
     <lastBuildDate>{{ latest_date }}</lastBuildDate>
-	<ttl>60</ttl>
-	
+    <ttl>60</ttl>
+
     {% for article in articles %}
     <item>
-      <title>{{ article.title }}</title>
+      <title>{{ article.title|escape }}</title>
       <link>{{ url.base }}{{ article.slug }}.html</link>
       <description>{{ article.desc }}</description>
       <pubDate>{{ article.date }}</pubDate>
