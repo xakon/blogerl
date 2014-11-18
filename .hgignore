@@ -7,3 +7,4 @@ syntax: glob
 demo-blog/compiled/*
 rel/blogerl/*
 deps/*
+.rebar/

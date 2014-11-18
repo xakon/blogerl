@@ -1,3 +1,4 @@
+%% coding: latin-1
 -module(blog).
 -export([main/1, run/1]).
 -compile(export_all).
@@ -103,7 +104,7 @@ compile_files([A = #article{file=File} | Rest], Vars, Markdown) ->
             {ok, tpl} = erlydtl:compile(MD, tpl,
                          [{vars, AllVars}, {doc_root, filename:dirname(File)}]);
         false ->
-            ok = erlydtl:compile(File, tpl, [{vars, AllVars}])
+            {ok, tpl} = erlydtl:compile(File, tpl, [{vars, AllVars}])
     end,
     {ok, Text} = tpl:render([]),
     [A#article{text=Text} | compile_files(Rest, Vars, Markdown)].
@@ -136,7 +137,7 @@ create_index(Src, Out, Pages, Vars) ->
     Index = [[{date, format_date(A#article.date)},
               {title, A#article.title},
               {slug, A#article.slug}] || A <- Pages],
-    ok = erlydtl:compile(Src, tpl, [{vars, [{pages, lists:reverse(lists:sort(Index))}] ++ Vars}]),
+    {ok, tpl} = erlydtl:compile(Src, tpl, [{vars, [{pages, lists:reverse(lists:sort(Index))}] ++ Vars}]),
     {ok, Text} = tpl:render([]),
     ok = file:write_file(Out, Text).
 
@@ -152,10 +153,10 @@ rss(Src, Out, Num, Index, Vars) ->
                                         article(mochiweb_html:parse(T))})++"]]>"}] ||
                   A=#article{text=T} <- Index])),
     [[_,{date, LatestDate}|_]|_] = Articles,
-    ok = erlydtl:compile(Src,
-                         tpl,
-                         [{vars, [{articles, lists:sublist((Articles), Num)},
-                                  {latest_date, LatestDate}] ++ Vars}]),
+    {ok,_} = erlydtl:compile(Src,
+                             tpl,
+                             [{vars, [{articles, lists:sublist((Articles), Num)},
+                                      {latest_date, LatestDate}] ++ Vars}]),
     {ok, Text} = tpl:render([]),
     ok = file:write_file(Out, Text).
 
