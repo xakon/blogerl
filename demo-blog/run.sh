@@ -1,1 +1,1 @@
-../rel/blogerl/bin/erl -run blog run "./" -noshell
+../_build/default/rel/blogerl/bin/blogerl -run blog run "`pwd`"

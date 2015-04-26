@@ -5,6 +5,4 @@ syntax: glob
 *.beam
 *.dump
 demo-blog/compiled/*
-rel/blogerl/*
-deps/*
-.rebar/
+_build
