@@ -66,7 +66,7 @@ You can take a look to the matching `*.tpl` files in `demo-blog` to see how they
 
 ### Markdown ###
 
-Files that are scanned as requiring markdown and have markdown code between `{% markdown %}` and `{% endmarkdown %} tags (they can not be nested) will have all the content in between converted by a markdown library. The rest will be left as is.
+Files that are scanned as requiring markdown and have markdown code between `{% markdown %}` and `{% endmarkdown %}` tags (they can not be nested) will have all the content in between converted by a markdown library. The rest will be left as is.
 
 ### Authors ###
 
