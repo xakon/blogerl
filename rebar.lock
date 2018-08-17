@@ -1,20 +1,12 @@
-[{<<"merl">>,
-  {git,"git://github.com/erlydtl/merl.git",
-       {ref,"750b09d44425f435ff579a4d28bf5844bb5b4ef1"}},
-  1},
- {<<"eunit_formatters">>,
-  {git,"git://github.com/seancribbs/eunit_formatters",
-       {ref,"2c73eb6e46b0863f19507857b386a48a53aaf141"}},
-  1},
- {<<"mochiweb">>,
-  {git,"git://github.com/mochi/mochiweb.git",
-       {ref,"b66b68d95c9e1b2a32b194202e870e6d1e232eb7"}},
-  0},
+{"1.1.0",
+[{<<"erlydtl">>,{pkg,<<"erlydtl">>,<<"0.12.1">>},0},
  {<<"markdown">>,
   {git,"https://github.com/erlware/erlmarkdown.git",
-       {ref,"22298f62b973d1aa1c344c1b23a22ce66fad1659"}},
+       {ref,"8ef862ebf85380a8aedfdd66cdaa26db87a8bc3f"}},
   0},
- {<<"erlydtl">>,
-  {git,"git://github.com/evanmiller/erlydtl.git",
-       {ref,"de00ccf522be8d3f9b0dcb7cd680f83b4fb7267a"}},
-  0}].
+ {<<"mochiweb">>,{pkg,<<"mochiweb">>,<<"2.18.0">>},0}]}.
+[
+{pkg_hash,[
+ {<<"erlydtl">>, <<"3FDE3190D30340B10CFCFDB4135A828761D468DB4E4B34817C6B91D295F3142D">>},
+ {<<"mochiweb">>, <<"EB55F1DB3E6E960FAC4E6DB4E2DB9EC3602CC9F30B86CD1481D56545C3145D2E">>}]}
+].
