@@ -5,6 +5,7 @@
 
 -define(conf(A,B), proplists:get_value(A,B)).
 -define(conf(A,B,C), proplists:get_value(B, proplists:get_value(A,C))).
+-define(TMP_CODE_FILE, "/tmp/blogerl-pre.tmp").
 
 -record(conf, {index,
                index_tpl,
@@ -107,7 +108,8 @@ compile_files([A = #article{file=File} | Rest], Vars, Markdown) ->
             {ok, tpl} = erlydtl:compile(File, tpl, [{vars, AllVars}])
     end,
     {ok, Text} = tpl:render([]),
-    [A#article{text=Text} | compile_files(Rest, Vars, Markdown)].
+    CodeText = render_code(Text),
+    [A#article{text=CodeText} | compile_files(Rest, Vars, Markdown)].
 
 markdown(Bin) ->
     iolist_to_binary(parse(binary_to_list(Bin))).
@@ -193,6 +195,7 @@ filetype(FileName) ->
 %% Use the mochiweb_html tree and find the article we need.
 article({<<"article">>, _, Content}) -> Content;
 article({_, _, Tree}) -> article(Tree);
+article({comment, _}) -> not_found;
 article(Bin) when is_binary(Bin) -> not_found;
 article([]) -> not_found;
 article([H|T]) ->
@@ -201,12 +204,12 @@ article([H|T]) ->
         Article -> Article
     end.
 
-%% "Thu, 22 Jul 2010 00:00:00 EST" -> 2010 07 22
+%% "Thu, 22 Jul 2010 00:00:00 EST" -> 2010/07/22
 format_date(Str) ->
     {match, [Day,Month,Year]} = re:run(Str,
                                        "([\\d]{1,2}) ([\\w]{3}) ([\\d]{4})",
                                        [{capture, all_but_first, list}]),
-    string:join([Year, month(Month), Day], " ").
+    string:join([Year, month(Month), Day], "/").
 
 month("Jan") -> "01";
 month("Feb") -> "02";
@@ -220,3 +223,105 @@ month("Sep") -> "09";
 month("Oct") -> "10";
 month("Nov") -> "11";
 month("Dec") -> "12".
+
+render_code(BaseHTML) ->
+    case has_pygments() of
+        true ->
+            map_pre(unicode:characters_to_binary(BaseHTML));
+        false ->
+            warn_once("Pygments not installed, will not "
+                      "auto-generate syntax highlighting"),
+            BaseHTML
+    end.
+
+has_pygments() ->
+    case get(has_pygments) of
+        undefined ->
+            case re:run(os:cmd("pygmentize"), "command not found") of
+                nomatch ->
+                    put(has_pygments, true),
+                    true;
+                _ ->
+                    put(has_pygments, false),
+                    false
+            end;
+        Res ->
+            Res
+    end.
+
+warn_once(Str) ->
+    case get({warn, Str}) of
+        undefined ->
+            put({warn, Str}, true),
+            io:format("~ts~n", [Str]);
+        _ ->
+            ok
+    end.
+
+%% Because pygments uses semantic linebreaks and that the
+%% mochihtml library doesn't preserve it, we need to substitute
+%% all <pre> tag contents by hand.
+%% TODO: optimize parser & pygments calls
+map_pre(<<"<pre>", Rest/binary>>) ->
+    {Until, More} = until_end_pre(Rest),
+    <<"<pre>", Until/binary, "</pre>", (map_pre(More))/binary>>;
+map_pre(<<"<pre ", Rest/binary>>) ->
+    {Lang, More} = get_lang_attrs(Rest),
+    {Content, Tail} = until_end_pre(More),
+    {ok, Fd} = file:open(?TMP_CODE_FILE, [write, raw]),
+    ok = file:write(Fd, unescape_code(Content)),
+    file:close(Fd),
+    Cmd = unicode:characters_to_list(
+        ["pygmentize ", ["-l ", Lang], " -f html ", ?TMP_CODE_FILE]
+    ),
+    Code = os:cmd(Cmd),
+    NewCode = unicode:characters_to_binary(Code),
+    <<NewCode/binary, (map_pre(Tail))/binary>>;
+map_pre(<<Char, Rest/binary>>) ->
+    <<Char, (map_pre(Rest))/binary>>;
+map_pre(<<>>) ->
+    <<>>.
+
+until_end_pre(Bin) -> until_end_pre(Bin, <<>>).
+until_end_pre(<<"</pre>", Rest/binary>>, Acc) ->
+    {Acc, Rest};
+until_end_pre(<<Char, Rest/binary>>, Acc) ->
+    until_end_pre(Rest, <<Acc/binary, Char>>).
+
+get_lang_attrs(<<"class=", Delim, LangStr/binary>>) ->
+    {Str, Rest} = extract_str(LangStr, Delim),
+    Lang = handle_pre_class(Str),
+    {Lang, drop_until_tag_close(Rest)};
+get_lang_attrs(<<">", Rest/binary>>) ->
+    {undefined, Rest};
+get_lang_attrs(<<_, Rest/binary>>) ->
+    get_lang_attrs(Rest).
+
+extract_str(Str, Delim) -> extract_str(Str, Delim, <<>>).
+
+extract_str(<<$\\, Quoted, Rest/binary>>, Delim, Acc) when Quoted == Delim ->
+    extract_str(Rest, Delim, <<Acc/binary, $\\, Quoted>>);
+extract_str(<<Char, Rest/binary>>, Delim, Acc) when Char == Delim ->
+    {Acc, Rest};
+extract_str(<<Char, Rest/binary>>, Delim, Acc) ->
+    extract_str(Rest, Delim, <<Acc/binary, Char>>).
+
+handle_pre_class(<<"brush:erl">>) -> <<"erlang">>;
+handle_pre_class(<<"brush:eshell">>) -> <<"erlang">>;
+handle_pre_class(<<"brush:", Lang/binary>>) -> Lang;
+handle_pre_class(Lang) -> Lang.
+
+drop_until_tag_close(<<">", Rest/binary>>) ->
+    Rest;
+drop_until_tag_close(<<_, Rest/binary>>) ->
+    drop_until_tag_close(Rest).
+
+unescape_code(OrigStr) ->
+    lists:foldl(fun({Pat, Repl}, Str) ->
+                    re:replace(Str, Pat, Repl, [global])
+                end,
+                OrigStr,
+                [{"&gt;", ">"},
+                 {"&lt;", "<"},
+                 {"&amp;", "\\&"}]).
+
